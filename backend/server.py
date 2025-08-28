@@ -292,7 +292,8 @@ async def refresh_token(refresh_data: RefreshTokenRequest):
             )
         
         # Create new tokens
-        token_data = {"sub": user.id, "email": user.email, "role": user.role.value}
+        role_value = user.role.value if hasattr(user.role, 'value') else user.role
+        token_data = {"sub": user.id, "email": user.email, "role": role_value}
         access_token = auth_service.create_access_token(token_data)
         new_refresh_token = auth_service.create_refresh_token(token_data)
         
