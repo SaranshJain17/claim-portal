@@ -234,7 +234,8 @@ async def login_user(login_data: LoginRequest):
             )
         
         # Create tokens
-        token_data = {"sub": user.id, "email": user.email, "role": user.role.value}
+        role_value = user.role.value if hasattr(user.role, 'value') else user.role
+        token_data = {"sub": user.id, "email": user.email, "role": role_value}
         access_token = auth_service.create_access_token(token_data)
         refresh_token = auth_service.create_refresh_token(token_data)
         
